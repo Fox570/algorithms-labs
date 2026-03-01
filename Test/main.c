@@ -1,25 +1,14 @@
 #include <stdio.h>
-// #include <errno.h>
+
+struct Date {
+    unsigned int dd:5;
+    unsigned int mm:4;
+    unsigned int yy;
+};
 
 int main() {
-    FILE *fp;
-    char buff[512];
+    struct Date date = {19, 03, 2008};
+    printf("%d\n", sizeof(date));
 
-    if ((fp = fopen("file.txt", "r")) == NULL) {
-        perror("file.txt");
-        return 1;
-    }
-    
-    fseek(fp, 0, SEEK_END);
-    int lenght = ftell(fp);
-    int i=0;
-    char c;
-    while ((c = fgetc(fp)) != EOF)
-        buff[i++] = c;
-    buff[i] = '\0';
-
-    puts(buff);
-
-    fclose(fp);
     return 0;
 }
