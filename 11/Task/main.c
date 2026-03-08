@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 enum {name_length=50, max_routes=20};
 
 struct MARSH {
@@ -10,6 +11,7 @@ struct MARSH {
     unsigned short number;
 };
 
+
 int get_index_route(struct MARSH *routes, short *cnt, short route_number) {
     for (int i=0; i<*cnt; i++) {
         if (routes[i].number == route_number)
@@ -17,6 +19,7 @@ int get_index_route(struct MARSH *routes, short *cnt, short route_number) {
     }
     return -1;
 }
+
 
 void add_route(struct MARSH *routes, short *cnt) {
     if (*cnt >= max_routes) {
@@ -38,6 +41,7 @@ void add_route(struct MARSH *routes, short *cnt) {
     printf("Маршрут успешно добавлен.\n");
 }
 
+
 int *get_available_routes(struct MARSH *routes, short *cnt) {
     int *route_nums = (int *)malloc(max_routes * sizeof(int));
     
@@ -47,6 +51,21 @@ int *get_available_routes(struct MARSH *routes, short *cnt) {
 
     return route_nums;
 }
+
+
+void sort(int *arr, int n) {
+    int i, j, t;
+    for (i=0; i<n-1; i++) {
+        for (j=0; j<n-i-1; j++) {
+            if (arr[j+1] < arr[j]) {
+                t = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = t;
+            }
+        }
+    }
+}
+
 
 int main() {
     short routes_cnt = 8;
@@ -74,6 +93,7 @@ int main() {
         } else if (action == 2) {
             short selected_route;
             int *availables = get_available_routes(routes, &routes_cnt); // записываем доступные маршруты
+            sort(availables, routes_cnt); // сортируем список маршрутов
 
             printf("Доступны маршруты: ");
             for (int i=0; i<routes_cnt; i++) {printf("%d ", availables[i]);} // выводим доступные маршруты
