@@ -29,13 +29,14 @@ void add_route(struct MARSH *routes, short *cnt) {
 
     struct MARSH new_route;
     printf("Введите номер маршрута: ");
-    scanf("%d", &new_route.number);
+    scanf("%hd", &new_route.number);
+    while (getchar() != '\n');
 
     printf("Начальный пункт: ");
-    scanf("%s", &new_route.start);
+    fgets(new_route.start, sizeof(new_route.start), stdin);
 
     printf("Конечный пункт: ");
-    scanf("%s", &new_route.finish);
+    fgets(new_route.finish, sizeof(new_route.finish), stdin);
 
     routes[(*cnt)++] = new_route;
     printf("Маршрут успешно добавлен.\n");
@@ -86,7 +87,7 @@ int main() {
         printf("\nВыберете действие (1/2): \n\
 \t1. Добавить маршрут\n\
 \t2. Получить информацию о маршруте\n");
-        scanf("%d", &action);
+        scanf("%hd", &action);
         
         if (action == 1) {
             add_route(routes, &routes_cnt);
@@ -99,7 +100,7 @@ int main() {
             for (int i=0; i<routes_cnt; i++) {printf("%d ", availables[i]);} // выводим доступные маршруты
 
             printf("\nВведите номер маршрута: ");
-            scanf("%d", &selected_route);
+            scanf("%hd", &selected_route);
 
             short index_route = get_index_route(routes, &routes_cnt, selected_route);
             if (index_route >= 0) {
@@ -112,7 +113,7 @@ int main() {
 
         printf("\nНажмите Enter для продолжения/Ctrl+C для завершения...");
         while (getchar() != '\n');
-        getchar();
+        // getchar();
     }
 
     return 0;
