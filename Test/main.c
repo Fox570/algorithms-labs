@@ -1,26 +1,32 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
 
-void sort(int *arr, int n) {
-    int i, j, t;
-    for (i=0; i<n-1; i++) {
-        for (j=0; j<n-i-1; j++) {
-            if (arr[j+1] < arr[j]) {
-                t = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = t;
-            }
-        }
-    }
-}
 
 int main() {
-    int arr[] = {3, -2, 1, 5, 0};
-    int i, n;
-    for (i=0; i<5; i++) {printf("%d ", arr[i]);}
-    sort(arr, 5);
-    puts("\n");
-    for (i=0; i<5; i++) {printf("%d ", arr[i]);}
+    // int var_i = 10;
+    // double pi = 3.14159265358979;
+    // char ch = 's';
 
+    int var_i;
+    double pi;
+    char ch;
+
+
+    FILE *fp;
+    if ((fp = fopen("file.txt", "rb")) == NULL) {
+        perror("file.txt");
+        return 1;
+    }
+
+    fread(&var_i, sizeof(var_i), 1, fp);
+    fread(&pi, sizeof(pi), 1, fp);
+    fread(&ch, sizeof(ch), 1, fp);
+
+    printf("%d, %lf, %c\n", var_i, pi, ch);
+
+    // fwrite(&var_i, sizeof(var_i), 1, fp);
+    // fwrite(&pi, sizeof(pi), 1, fp);
+    // fwrite(&ch, sizeof(ch), 1, fp);
+
+    fclose(fp);
     return 0;
 }
