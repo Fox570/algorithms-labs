@@ -147,6 +147,11 @@ int write_main_routes(char FNAME[]) {
 
 int remove_route(char FNAME[], struct MARSH *routes, short *cnt) {
     short selected_route;
+    int *availables = get_available_routes(routes, *cnt); // записываем доступные маршруты в массив
+    sort(availables, *cnt); // сортируем список маршрутов
+
+    printf("Доступны маршруты: ");
+    for (int i=0; i<*cnt; i++) {printf("%d ", availables[i]);} // выводим доступные маршруты
 
     printf("\nВведите номер маршрута: ");
     scanf("%hd", &selected_route);
@@ -160,7 +165,7 @@ int remove_route(char FNAME[], struct MARSH *routes, short *cnt) {
     (*cnt)--;
 
     FILE *fp;
-    if ((fp = fopen(FNAME, "rb+")) == NULL) {perror(FNAME); return 1;}
+    if ((fp = fopen(FNAME, "wb")) == NULL) {perror(FNAME); return 1;}
     fwrite(routes, sizeof(struct MARSH), *cnt, fp);
     fclose(fp);
 
@@ -201,6 +206,7 @@ int main() {
     struct MARSH *TRAFIC = (struct MARSH*)malloc(max_routes * sizeof(struct MARSH));
 
     run_program(FNAME, TRAFIC, &routes_cnt);
+    // write_main_routes(FNAME);
     free(TRAFIC);
     
     return 0;
